@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QRCodeMenu.Server.Data;
+using QRCodeMenu.Server.Dto.Mappers.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<DataDbContext>(opt =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
+builder.Services.MapServices();
 
 #endregion
 
@@ -35,6 +38,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.MapRazorPages();

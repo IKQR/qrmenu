@@ -6,7 +6,7 @@ using QRCodeMenu.Server.Data.Entities;
 using QRCodeMenu.Server.Dto;
 using QRCodeMenu.Server.Dto.Mappers.Base;
 
-namespace QRCodeMenu.Server.Controllers
+namespace QRCodeMenu.Server.Controllers.Admin
 {
     [Route("api/admin/[controller]")]
     [ApiController]

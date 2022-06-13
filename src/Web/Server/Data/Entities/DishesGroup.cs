@@ -16,7 +16,7 @@ namespace QRCodeMenu.Server.Data.Entities
         public int Id { get; init; }
 
         [Required]
-        public int Name { get; set; }
+        public string Name { get; set; }
         [ForeignKey(nameof(Restaurant))]
         public int RestaurantId { get; set; }
 
