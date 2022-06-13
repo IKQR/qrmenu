@@ -16,10 +16,12 @@ namespace QRCodeMenu.Server.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        DbSet<Restaurant> Restaurants { get; set; } = null!;
-        DbSet<Affiliate> Affiliate { get; set; } = null!;
+        public DbSet<Restaurant> Restaurants { get; set; } = null!;
+        public DbSet<Affiliate> Affiliate { get; set; } = null!;
+        public DbSet<Menu> Menus { get; set; }
 
-        DbSet<Dish> Dishes { get; set; } = null!;
-        DbSet<Ingredient> Ingredients { get; set; } = null!;
+        public DbSet<Dish> Dishes { get; set; } = null!;
+        public DbSet<Ingredient> Ingredients { get; set; } = null!;
+        public DbSet<DishesGroup> DishesGroups { get; set; } = null!;
     }
 }
