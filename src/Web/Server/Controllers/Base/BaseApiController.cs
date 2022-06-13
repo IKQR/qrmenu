@@ -3,6 +3,7 @@ using QRCodeMenu.Server.Data;
 
 namespace QRCodeMenu.Server.Controllers.Base
 {
+    [ApiController]
     public abstract class BaseApiController : ControllerBase
     {
         protected readonly DataDbContext _data;

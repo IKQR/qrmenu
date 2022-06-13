@@ -1,6 +1,6 @@
 ﻿namespace QRCodeMenu.Server.Dto
 {
-    public class DishDto
+    public record DishDto
     {
     }
 }
