@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +23,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\QRCodeMenu.Client.csproj" />
     <ProjectReference Include="..\Shared\QRCodeMenu.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BackMappers" />
+    <Folder Include="Mappers\BackMapper" />
   </ItemGroup>
 
 

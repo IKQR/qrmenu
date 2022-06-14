@@ -1,4 +1,4 @@
-﻿namespace QRCodeMenu.Server.Mappers.BackMapper
+﻿namespace QRCodeMenu.Server.Mappers.Base
 {
     public interface IBaseBackMapper<TEntity, TDto>
     {

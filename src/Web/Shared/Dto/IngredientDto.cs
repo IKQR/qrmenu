@@ -1,4 +1,4 @@
-﻿namespace QRCodeMenu.Server.Dto
+﻿namespace QRCodeMenu.Shared.Dto
 {
     public record IngredientDto
     {
@@ -12,6 +12,6 @@
         public int RestaurantId { get; set; }
 
         public RestaurantDto Restaurant { get; set; }
-        public virtual ICollection<DishDto> Dishes { get; set; }
+        public IEnumerable<DishDto> Dishes { get; set; }
     }
 }

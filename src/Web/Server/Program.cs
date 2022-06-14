@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QRCodeMenu.Server.Data;
-using QRCodeMenu.Server.Dto.Mappers.Base;
+using QRCodeMenu.Server.Mappers.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
 builder.Services.MapServices();
+builder.Services.BackMapServices();
 
 #endregion
 
@@ -28,9 +29,9 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+app.UseExceptionHandler("/Error");
 
 app.UseHttpsRedirection();
 

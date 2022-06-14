@@ -1,4 +1,4 @@
-﻿namespace QRCodeMenu.Server.Dto.Mappers.Base
+﻿namespace QRCodeMenu.Server.Mappers.Base
 {
     public interface IBaseDtoMapper<TEntity, TDto>
     {
@@ -7,5 +7,6 @@
         {
             return entities.Select(Map);
         }
+        
     }
 }

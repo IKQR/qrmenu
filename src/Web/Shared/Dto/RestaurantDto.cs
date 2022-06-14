@@ -1,4 +1,4 @@
-﻿namespace QRCodeMenu.Server.Dto
+﻿namespace QRCodeMenu.Shared.Dto
 {
     public record RestaurantDto
     {
