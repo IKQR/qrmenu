@@ -1,7 +1,8 @@
 ﻿using QRCodeMenu.Server.Data.Entities;
+using QRCodeMenu.Server.Dto;
 using QRCodeMenu.Server.Dto.Mappers.Base;
 
-namespace QRCodeMenu.Server.Dto.Mappers;
+namespace QRCodeMenu.Server.Mappers;
 
 public class AffiliateMapper : IBaseDtoMapper<Affiliate, AffiliateDto>
 {
