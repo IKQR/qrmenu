@@ -21,7 +21,7 @@ namespace QRCodeMenu.Server.Data.Entities
         public int? IndividualMenuId { get; set; }
         
         public virtual Restaurant Restaurant { get; set; }
-        public AffiliateAddress Address { get; set; }
+        public virtual AffiliateAddress Address { get; set; }
 
         public virtual Menu? IndividualMenu { get; set; }
     }
@@ -50,6 +50,6 @@ namespace QRCodeMenu.Server.Data.Entities
         [Required]
         public string Street { get; set; }
 
-        public Affiliate Affiliate { get; set; }
+        public virtual Affiliate Affiliate { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QRCodeMenu.Server.Data;
@@ -11,9 +12,10 @@ using QRCodeMenu.Server.Data;
 namespace QRCodeMenu.Server.Data.Migrations
 {
     [DbContext(typeof(DataDbContext))]
-    partial class DataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220614112931_MenusUpdate")]
+    partial class MenusUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("IngredientsId");
 
-                    b.ToTable("DishIngredient", (string)null);
+                    b.ToTable("DishIngredient");
                 });
 
             modelBuilder.Entity("DishMenu", b =>
@@ -49,7 +51,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("SpecialMenusId");
 
-                    b.ToTable("DishMenu", (string)null);
+                    b.ToTable("DishMenu");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.Affiliate", b =>
@@ -72,7 +74,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Affiliate", (string)null);
+                    b.ToTable("Affiliate");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.AffiliateAddress", b =>
@@ -98,7 +100,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasKey("AffiliateId");
 
-                    b.ToTable("AffiliateAddress", (string)null);
+                    b.ToTable("AffiliateAddress");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.Dish", b =>
@@ -125,7 +127,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Dishes", (string)null);
+                    b.ToTable("Dishes");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.DishesGroup", b =>
@@ -147,7 +149,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("DishesGroups", (string)null);
+                    b.ToTable("DishesGroups");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.Ingredient", b =>
@@ -169,7 +171,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.Menu", b =>
@@ -200,7 +202,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Menus", (string)null);
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("QRCodeMenu.Server.Data.Entities.Restaurant", b =>
@@ -217,7 +219,7 @@ namespace QRCodeMenu.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("DishIngredient", b =>

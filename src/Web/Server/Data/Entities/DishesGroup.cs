@@ -20,9 +20,9 @@ namespace QRCodeMenu.Server.Data.Entities
         [ForeignKey(nameof(Restaurant))]
         public int RestaurantId { get; set; }
 
-        public Restaurant Restaurant { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
 
-        public ICollection<Dish> Dishes { get; set; }
+        public virtual ICollection<Dish> Dishes { get; set; }
     }
 
 }
