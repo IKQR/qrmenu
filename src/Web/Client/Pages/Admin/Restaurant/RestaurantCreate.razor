@@ -1,0 +1,65 @@
+﻿@page "/admin/restaurant/create"
+@using QRCodeMenu.Shared.Dto
+@using QRCodeMenu.Client.Components
+@using static QRCodeMenu.Client.Components.Diver
+@inject NavigationManager NM
+
+<Diver Items=DiverItems />
+
+<EditForm Model=Restaurant
+          OnValidSubmit=CreateRestaurant>
+    <div class="form-group row  mb-2">
+        <label class="col-sm-1 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <InputText class="form-control" @bind-Value=Restaurant.Name />
+        </div>
+    </div>
+    <div class="form-group row  mb-2">
+        <label class="col-sm-1 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <InputTextArea class="form-control" @bind-Value=Restaurant.Description />
+        </div>
+    </div>
+    <button type="submit" class="btn @(PageState.UpdateButton)">Create</button>
+</EditForm>
+
+@code {
+    [Inject]
+    private HttpClient Http { get; init; } = null!;
+
+    public RestaurantDto Restaurant { get; set; } = new();
+
+    DiverItem[] DiverItems => new DiverItem[] {
+        new("Restaurants", "/admin/restaurant"),
+        new("Create restaurant", null),
+    };
+
+    public State PageState = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task CreateRestaurant()
+    {
+        var result = await Http.PostAsJsonAsync<RestaurantDto>(
+            $"/api/admin/restaurant", Restaurant);
+
+        if (result.IsSuccessStatusCode)
+        {
+            PageState.UpdateButton = "btn-success";
+
+            NM.NavigateTo($"/admin/restaurant/");
+        }
+        else
+        {
+            PageState.UpdateButton = "btn-danger";
+        }
+    }
+
+    public record State
+    {
+        public string UpdateButton { get; set; } = "btn-primary";
+    }
+}

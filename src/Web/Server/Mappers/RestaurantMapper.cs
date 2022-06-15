@@ -12,6 +12,7 @@ namespace QRCodeMenu.Server.Mappers
             {
                 Id = entity.Id,
                 Name = entity.Name,
+                Description = entity.Description,
             };
         }
         public Restaurant MapBack(RestaurantDto dto)
@@ -20,6 +21,7 @@ namespace QRCodeMenu.Server.Mappers
             {
                 Id = dto.Id,
                 Name = dto.Name,
+                Description= dto.Description,
             };
         }
 

@@ -1,0 +1,40 @@
+﻿@page "/admin/restaurant/"
+@using QRCodeMenu.Shared.Dto
+
+<a class="btn btn-success mb-2" href="/admin/restaurant/create" role="button">Create</a>
+
+@foreach (var restaurant in Restaurants)
+{
+    <a href="/admin/restaurant/@restaurant.Id" 
+   class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@restaurant.Name</h5>
+            @*<small class="text-muted">3 days ago</small>*@
+        </div>
+        <p class="mb-1">@restaurant.Description</p>
+        @*<small class="text-muted">Donec id elit non mi porta.</small>*@
+    </a>
+}
+
+@code {
+    [Inject]
+    private HttpClient Http { get; init; } = null!;
+
+    RestaurantDto[] Restaurants = Array.Empty<RestaurantDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRestaurants();
+
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task LoadRestaurants()
+    {
+        var result =
+            await Http.GetFromJsonAsync<RestaurantDto[]>("/api/admin/restaurant/") ??
+            Array.Empty<RestaurantDto>();
+
+        Restaurants = result.OrderBy(x => x.Name).ToArray();
+    }
+}

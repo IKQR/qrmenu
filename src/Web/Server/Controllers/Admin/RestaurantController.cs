@@ -16,7 +16,7 @@ namespace QRCodeMenu.Server.Controllers.Admin
         private readonly IBaseBackMapper<Restaurant, RestaurantDto> _backMapper;
 
         public RestaurantController(DataDbContext dataContext,
-            IBaseDtoMapper<Restaurant,RestaurantDto> mapper, IBaseBackMapper<Restaurant, RestaurantDto> backMapper) 
+            IBaseDtoMapper<Restaurant, RestaurantDto> mapper, IBaseBackMapper<Restaurant, RestaurantDto> backMapper)
             : base(dataContext)
         {
             this._mapper = mapper;
@@ -27,7 +27,7 @@ namespace QRCodeMenu.Server.Controllers.Admin
         public async Task<ActionResult<RestaurantDto>> Get([FromRoute] int id)
         {
             var ent = await _data.Restaurants.FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (ent is null) return NotFound();
 
             return Ok(_mapper.Map(ent));
@@ -40,7 +40,7 @@ namespace QRCodeMenu.Server.Controllers.Admin
 
             return Ok(_mapper.Map(ent));
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RestaurantDto restaurant)
         {
@@ -52,13 +52,15 @@ namespace QRCodeMenu.Server.Controllers.Admin
             await _data.SaveChangesAsync();
             return Ok();
         }
- 
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] RestaurantDto restaurant)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            
-            var ent = await _data.Restaurants.FirstOrDefaultAsync(x => x.Id == restaurant.Id);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var ent = await _data.Restaurants
+                .FirstOrDefaultAsync(x => x.Id == restaurant.Id);
             if (ent is null) return NotFound();
 
             var entity = _backMapper.MapUpdate(ent, restaurant);
@@ -66,13 +68,14 @@ namespace QRCodeMenu.Server.Controllers.Admin
             await _data.SaveChangesAsync();
             return Ok();
         }
- 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var restaurant = await _data.Restaurants.FirstOrDefaultAsync(x => x.Id == id);
+            var restaurant = await _data.Restaurants
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (restaurant is null) return NotFound();
-            
+
             _data.Restaurants.Remove(restaurant);
             await _data.SaveChangesAsync();
             return Ok(restaurant);
