@@ -8,21 +8,21 @@ using QRCodeMenu.Shared.Dto;
 
 namespace QRCodeMenu.Server.Controllers.Admin
 {
-    [Route("api/[controller]/{restaurantId}")]
+    [Route("api/admin/[controller]/{restaurantId}")]
     [ApiController]
     public class AffiliateController : BaseApiController
     {
         private readonly IBaseDtoMapper<Affiliate, AffiliateDto> _mapper;
         private readonly IBaseBackMapper<Affiliate, AffiliateDto> _backMapper;
 
-        public AffiliateController(DataDbContext dataContext, 
-            IBaseDtoMapper<Affiliate, AffiliateDto> mapper, IBaseBackMapper<Affiliate, AffiliateDto> backMapper) 
+        public AffiliateController(DataDbContext dataContext,
+            IBaseDtoMapper<Affiliate, AffiliateDto> mapper, IBaseBackMapper<Affiliate, AffiliateDto> backMapper)
             : base(dataContext)
         {
             _mapper = mapper;
             _backMapper = backMapper;
         }
-        
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AffiliateDto>>> Get()
         {
@@ -42,7 +42,7 @@ namespace QRCodeMenu.Server.Controllers.Admin
 
             return _mapper.Map(ent);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Post(
             [FromRoute] int restaurantId, [FromBody] AffiliateDto affiliate)
@@ -56,15 +56,15 @@ namespace QRCodeMenu.Server.Controllers.Admin
             await _data.SaveChangesAsync();
             return Ok();
         }
- 
+
         [HttpPut]
         public async Task<IActionResult> Put(
             [FromRoute] int restaurantId, [FromBody] AffiliateDto affiliate)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             affiliate.RestaurantId = restaurantId;
-            
-            var ent = await _data.Affiliate.FirstOrDefaultAsync(x => x.Id == affiliate.Id 
+
+            var ent = await _data.Affiliate.FirstOrDefaultAsync(x => x.Id == affiliate.Id
                                                                      && x.RestaurantId == restaurantId);
             if (ent is null) return NotFound();
 
@@ -73,19 +73,19 @@ namespace QRCodeMenu.Server.Controllers.Admin
             await _data.SaveChangesAsync();
             return Ok();
         }
- 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(
             [FromRoute] int restaurantId, [FromRoute] int id)
         {
-            var affiliate = await _data.Affiliate.FirstOrDefaultAsync(x => x.Id == id 
+            var affiliate = await _data.Affiliate.FirstOrDefaultAsync(x => x.Id == id
                                                                            && x.RestaurantId == restaurantId);
             if (affiliate is null) return NotFound();
-            
+
             _data.Affiliate.Remove(affiliate);
             await _data.SaveChangesAsync();
             return Ok(affiliate);
         }
-    
+
     }
 }

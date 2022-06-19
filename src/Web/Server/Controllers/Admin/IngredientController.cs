@@ -9,7 +9,7 @@ using QRCodeMenu.Shared.Dto;
 namespace QRCodeMenu.Server.Controllers.Admin
 {
     [ApiController]
-    [Route("api/[controller]/{restaurantId}")]
+    [Route("api/admin/[controller]/{restaurantId}")]
     public class IngredientController : BaseApiController
     {
         private readonly IBaseDtoMapper<Ingredient, IngredientDto> _mapper;
@@ -50,8 +50,6 @@ namespace QRCodeMenu.Server.Controllers.Admin
         public async Task<IActionResult> Post([FromBody] IngredientDto ingredient,
             [FromRoute] int restaurantId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var ent = _backMapper.MapBack(ingredient);
 
             await _data.Ingredients.AddAsync(ent);

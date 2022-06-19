@@ -5,6 +5,8 @@
         public IngredientDto()
         {
             Name = string.Empty;
+            Restaurant = new();
+            Dishes = Array.Empty<DishDto>();
         }
         public int Id { get; init; }
         

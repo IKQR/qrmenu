@@ -17,12 +17,10 @@ namespace QRCodeMenu.Client.Pages.Admin
         public int RestaurantId { get; set; } = 0;
         protected RestaurantDto Restaurant { get; set; } = new();
 
-
-        private DiverItem[] DiverItems => new DiverItem[] {
+        protected virtual DiverItem[] DiverItems => new DiverItem[] {
             new("Restaurants", "/admin/restaurant"),
-            new(Restaurant.Name, null),
+            new(Restaurant.Name, $"/admin/restaurant/{Restaurant.Id}"),
         };
-        protected virtual DiverItem[] DiverSubItems => new DiverItem[] { };
 
         protected override async Task OnInitializedAsync()
         {

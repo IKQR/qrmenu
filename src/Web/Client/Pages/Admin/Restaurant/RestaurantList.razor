@@ -1,4 +1,4 @@
-﻿@page "/admin"
+﻿@page "/admin/restaurant"
 @using QRCodeMenu.Client.Components
 @using QRCodeMenu.Shared.Dto
 @using static QRCodeMenu.Client.Components.Diver
@@ -9,7 +9,7 @@
 
 @foreach (var restaurant in Restaurants)
 {
-    <a href="/admin/restaurant/@restaurant.Id" 
+    <a href="/admin/restaurant/@restaurant.Id"
    class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">@restaurant.Name</h5>
@@ -26,7 +26,7 @@
     [Inject]
     private HttpClient Http { get; init; } = null!;
 
-        DiverItem[] DiverItems => new DiverItem[] {
+    DiverItem[] DiverItems => new DiverItem[] {
         new( "Restaurants", null),
     };
 

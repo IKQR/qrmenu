@@ -8,7 +8,7 @@ using QRCodeMenu.Shared.Dto;
 
 namespace QRCodeMenu.Server.Controllers.Admin
 {
-    [Route("api/[controller]/{restaurantId}")]
+    [Route("api/admin/[controller]/{restaurantId}")]
     [ApiController]
     public class DishesGroupController : BaseApiController
     {

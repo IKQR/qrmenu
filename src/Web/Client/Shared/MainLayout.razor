@@ -1,12 +1,12 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
+<div class="container-fluid">
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        <nav class="nav navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+          <a class="nav-link" href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </nav>
 
-        <article class="content px-4">
+        <article class="container mt-4 px-4">
             @Body
         </article>
     </main>

@@ -1,0 +1,67 @@
+﻿@page "/admin/restaurant/{RestaurantId:int}/ingredient"
+@using QRCodeMenu.Client.Components
+@using QRCodeMenu.Shared.Dto
+@using static QRCodeMenu.Client.Components.Diver
+@inherits RestaurantChildBaseComponent
+
+<Diver Items=DiverItems />
+
+<NewIngredientComponent Restaurant=Restaurant OkAdding=OnIngredientAdded />
+<ul class="list-group">
+
+    @foreach (var ingredient in Ingredients)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col">@ingredient.Name</div>
+                <div class="col-1">
+                    <button class="btn btn-danger"
+                        @onclick=@(() => RemoveIngredient(ingredient))>
+                        <i class="bi bi-trash-fill" />
+                    </button>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+@code {
+    protected IngredientDto[] Ingredients { get; set; } = Array.Empty<IngredientDto>();
+
+    protected override DiverItem[] DiverItems =>
+        base.DiverItems.Concat(new DiverItem[]
+                                        {
+            new("Ingredients", null),
+                                        }).ToArray();
+
+    protected override async Task LoadOnInitialized()
+    {
+        await LoadIngredients();
+        await base.LoadOnInitialized();
+    }
+
+    protected async Task LoadIngredients()
+    {
+        var result = await Http.GetFromJsonAsync<IngredientDto[]>(
+            $"/api/admin/ingredient/{RestaurantId}")
+        ?? Array.Empty<IngredientDto>();
+
+        Ingredients = result.OrderBy(x => x.Name).ToArray();
+    }
+
+    protected async Task OnIngredientAdded(IngredientDto ingredientDto)
+    {
+        await LoadIngredients();
+    }
+
+    protected async Task RemoveIngredient(IngredientDto ingredient)
+    {
+        var result = await Http.DeleteAsync(
+            $"/api/admin/ingredient/{RestaurantId}/{ingredient.Id}");
+
+        if (result.IsSuccessStatusCode)
+            await LoadIngredients();
+        else
+            await base.JSRuntime.InvokeVoidAsync("alert", "Something went wrong");
+    }
+}
