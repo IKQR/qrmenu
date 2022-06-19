@@ -6,27 +6,70 @@
 
 <Diver Items=DiverItems />
 
-<div class="col-md-8 mb-2">
+<div class="row">
     <h4 class="mb-3">Restaurant info</h4>
-    <a type="button"
-       href="/admin/restaurant/@Restaurant.Id/edit"
-       class="btn btn-primary mb-2">
-        Edit
-    </a>
-    <ol class="list-group ">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-2 fw-bold">Name:</div>
-                <div class="col">@Restaurant.Name</div>
+    <div class=" mb-3">
+        <a type="button"
+           href="/admin/restaurant/@Restaurant.Id/edit"
+           class="btn btn-primary mb-2">
+            Edit
+        </a>
+        <ol class="list-group ">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2 fw-bold">Name:</div>
+                    <div class="col">@Restaurant.Name</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2 fw-bold">Description:</div>
+                    <div class="col">@Restaurant.Description</div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row mb-2 text-center">
+    <div class="col-md-10 offset-md-1">
+        <div class="card  border-primary text-primary">
+            <div class="card-header">Affiliates</div>
+            <div class="card-body">
+                <p class="card-text">Edit list of affiliates your restaurants use.</p>
+                <a href="/admin/restaurant/@Restaurant.Id/affiliate/" class="btn btn-primary stretched-link"></a>
             </div>
-        </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-2 fw-bold">Description:</div>
-                <div class="col">@Restaurant.Description</div>
+        </div>
+    </div>
+</div>
+<div class="row text-center">
+    <div class="col-md">
+        <div class="card  border-success text-success">
+            <div class="card-header">Ingredients</div>
+            <div class="card-body  ">
+                <p class="card-text">Edit list of ingridients your restaurants use.</p>
+                <a href="/admin/restaurant/@Restaurant.Id/ingredient/" class="btn btn-success stretched-link"></a>
             </div>
-        </li>
-    </ol>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="card  border-warning text-warning">
+            <div class="card-header">Dishes</div>
+            <div class="card-body ">
+                <p class="card-text">Edit list of dishes your restaurants use.</p>
+                <a href="/admin/restaurant/@Restaurant.Id/dish/" class="btn btn-warning stretched-link"></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="card  border-danger text-danger ">
+            <div class="card-header">Menus</div>
+            <div class="card-body ">
+                <p class="card-text">Edit your menus.</p>
+                <a href="/admin/restaurant/@Restaurant.Id/menu/" class="btn btn-danger stretched-link"></a>
+            </div>
+        </div>
+    </div>
 </div>
 
 

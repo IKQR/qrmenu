@@ -20,4 +20,10 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\Menu\" />
+    <Folder Include="Pages\Admin\Ingredients\" />
+    <Folder Include="Pages\Admin\Dishes\" />
+  </ItemGroup>
+
 </Project>
