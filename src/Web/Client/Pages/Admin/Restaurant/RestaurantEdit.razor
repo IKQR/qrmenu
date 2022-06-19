@@ -1,0 +1,108 @@
+﻿@page "/admin/restaurant/{RestaurantId:int}/edit"
+@using QRCodeMenu.Shared.Dto
+@using QRCodeMenu.Client.Components
+@using static QRCodeMenu.Client.Components.Diver
+@inject NavigationManager NM
+
+<Diver Items=DiverItems />
+
+<button type="button"
+        class="btn btn-danger"
+        @onclick=DeleteRestaurant>
+    Delete
+</button>
+
+<EditForm Model=Restaurant
+          OnValidSubmit=UpdateRestaurant>
+    <div class="form-group row  mb-2">
+        <label class="col-sm-1 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <InputText class="form-control" @bind-Value=Restaurant.Name />
+        </div>
+    </div>
+    <div class="form-group row  mb-2">
+        <label class="col-sm-1 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <InputTextArea class="form-control" @bind-Value=Restaurant.Description />
+        </div>
+    </div>
+    <button type="submit" class="btn @(PageState.UpdateButton)">Update</button>
+</EditForm>
+
+@code {
+    [Inject]
+    private HttpClient Http { get; init; } = null!;
+    [Inject]
+    private IJSRuntime JSRuntime { get; init; } = null!;
+
+    [Parameter]
+    public int RestaurantId { get; set; } = 0;
+    public RestaurantDto Restaurant { get; set; } = new();
+
+    DiverItem[] DiverItems => new DiverItem[] {
+        new( "Restaurants", "/admin/restaurant"),
+        new( Restaurant.Name, $"/admin/restaurant/{Restaurant.Id}"),
+        new( "Edit", null),
+    };
+
+    public State PageState = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRestaurant();
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task LoadRestaurant()
+    {
+        var result =
+            await Http.GetFromJsonAsync<RestaurantDto>(
+                $"/api/admin/restaurant/{RestaurantId}")
+            ?? new();
+
+        Restaurant = result;
+    }
+
+    protected async Task UpdateRestaurant()
+    {
+        var result = await Http.PutAsJsonAsync<RestaurantDto>(
+            $"/api/admin/restaurant", Restaurant);
+
+        if (result.IsSuccessStatusCode)
+        {
+            PageState.UpdateButton = "btn-success";
+            NM.NavigateTo($"/admin/restaurant/{Restaurant.Id}");
+        }
+        else
+        {
+            PageState.UpdateButton = "btn-warning";
+        }
+    }
+
+    protected async Task DeleteRestaurant()
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+                   $"Are you sure you want to delete {Restaurant.Name} restaurant?");
+
+        if (confirmed)
+        {
+            var result = await Http.DeleteAsync(
+                $"/api/admin/restaurant/{RestaurantId}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                NM.NavigateTo("/admin/restaurant");
+            }
+        }
+        else
+        {
+            await JSRuntime.InvokeAsync<bool>("alert",
+                   $"Something went wrong");
+        }
+    }
+
+    public record State
+    {
+        public string UpdateButton { get; set; } = "btn-primary";
+    }
+}
