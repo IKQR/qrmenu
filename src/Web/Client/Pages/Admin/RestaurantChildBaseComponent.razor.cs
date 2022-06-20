@@ -12,6 +12,8 @@ namespace QRCodeMenu.Client.Pages.Admin
         protected HttpClient Http { get; init; } = null!;
         [Inject]
         protected IJSRuntime JSRuntime { get; init; } = null!;
+        [Inject]
+        protected NavigationManager NM { get; init; } = null!;
 
         [Parameter]
         public int RestaurantId { get; set; } = 0;

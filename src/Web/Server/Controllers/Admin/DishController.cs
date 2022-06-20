@@ -48,17 +48,17 @@ namespace QRCodeMenu.Server.Controllers.Admin
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DishDto dish,
+        public async Task<ActionResult<int>> Post([FromBody] DishDto dish,
             [FromRoute] int restaurantId)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
             dish.RestaurantId = restaurantId;
 
             var ent = _backMapper.MapBack(dish);
 
             await _data.Dishes.AddAsync(ent);
             await _data.SaveChangesAsync();
-            return Ok();
+
+            return Ok(ent.Id);
         }
         
         [HttpPut]

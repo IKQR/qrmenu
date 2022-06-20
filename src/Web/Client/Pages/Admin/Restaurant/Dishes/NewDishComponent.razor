@@ -1,0 +1,53 @@
+﻿@using QRCodeMenu.Shared.Dto
+
+<div class="col-md-6">
+    <EditForm Model=Dish OnSubmit=OnAdd>
+        <div class="input-group mb-2">
+            <InputText class="form-control"
+                       placeholder="New dish"
+                       @bind-Value=Dish.Name />
+            <button class="btn btn-primary" type="submit">Add new ingredient</button>
+        </div>
+    </EditForm>
+</div>
+
+@if (errorOnAdding)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Oh no!</strong> Error occured while adding new dish!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@code {
+    [Inject]
+    public HttpClient Http { get; set; } = null!;
+    [Parameter]
+    public RestaurantDto Restaurant { get; set; } = new();
+    [Parameter]
+    public EventCallback<int> OkAdding { get; set; }
+
+    protected bool errorOnAdding { get; set; }
+    protected DishDto Dish { get; set; } = new();
+
+    protected async Task OnAdd()
+    {
+        errorOnAdding = false;
+
+        Dish.RestaurantId = Restaurant.Id;
+
+        var result = await Http.PostAsJsonAsync<DishDto>(
+            $"/api/admin/dish/{Restaurant.Id}", Dish);
+
+        if (result.IsSuccessStatusCode)
+        {
+            var id = await result.Content.ReadFromJsonAsync<int>();
+            await OkAdding.InvokeAsync(id);
+            Dish = new();
+        }
+        else
+        {
+            errorOnAdding = true;
+        }
+    }
+}

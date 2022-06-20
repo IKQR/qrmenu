@@ -25,9 +25,9 @@ namespace QRCodeMenu.Server.Data.Entities
         public int RestaurantId { get; set; }
 
         [ForeignKey(nameof(Group))]
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
 
-        public virtual DishesGroup Group { get; set; }
+        public virtual DishesGroup? Group { get; set; }
         public virtual Restaurant Restaurant { get; set; }
         public virtual ICollection<Ingredient> Ingredients { get; set; }
         public virtual ICollection<Menu> SpecialMenus { get; set; }

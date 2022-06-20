@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Admin\Restaurant\Menu\" />
-    <Folder Include="Pages\Admin\Restaurant\Dishes\" />
     <Folder Include="Pages\Admin\Restaurant\Affiliates\" />
   </ItemGroup>
 

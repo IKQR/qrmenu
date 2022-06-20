@@ -1,0 +1,43 @@
+﻿@page "/admin/restaurant/{RestaurantId:int}/dish"
+@using QRCodeMenu.Client.Components
+@using QRCodeMenu.Shared.Dto
+@using static QRCodeMenu.Client.Components.Diver
+@inherits RestaurantChildBaseComponent
+
+<Diver Items=DiverItems />
+
+<NewDishComponent Restaurant=Restaurant OkAdding=OnNewDishAdded />
+
+@foreach (var dish in Dishes)
+{
+    <p>@dish.Name</p>
+}
+
+@code {
+
+    protected override DiverItem[] DiverItems =>
+        base.DiverItems.Concat(new DiverItem[]
+        {
+            new("Dishes", null),
+        }).ToArray();
+
+    protected DishDto[] Dishes { get; set; } = Array.Empty<DishDto>();
+
+    protected override async Task LoadOnInitialized()
+    {
+        await base.LoadOnInitialized();
+        await LoadDishes();
+    }
+
+    protected async Task LoadDishes()
+    {
+        var result = await Http.GetFromJsonAsync<DishDto[]>($"/api/admin/dish/{RestaurantId}");
+
+        Dishes = result;
+    }
+
+    protected async Task OnNewDishAdded(int dishId)
+    {
+        NM.NavigateTo($"/admin/restaurant/{RestaurantId}/dish/{dishId}");
+    }
+}

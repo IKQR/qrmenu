@@ -7,6 +7,7 @@
 <Diver Items=DiverItems />
 
 <NewIngredientComponent Restaurant=Restaurant OkAdding=OnIngredientAdded />
+
 <ul class="list-group">
 
     @foreach (var ingredient in Ingredients)
@@ -30,9 +31,9 @@
 
     protected override DiverItem[] DiverItems =>
         base.DiverItems.Concat(new DiverItem[]
-                                        {
+        {
             new("Ingredients", null),
-                                        }).ToArray();
+        }).ToArray();
 
     protected override async Task LoadOnInitialized()
     {

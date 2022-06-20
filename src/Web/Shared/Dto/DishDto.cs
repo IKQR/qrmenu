@@ -5,6 +5,8 @@
         public DishDto()
         {
             Name = string.Empty;
+            Restaurant = new();
+            Group = null!;
             Ingredients = Array.Empty<IngredientDto>();
             SpecialMenus = Array.Empty<MenuDto>();
         }
@@ -14,14 +16,14 @@
         
         public int RestaurantId { get; set; }
 
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         
         
         public IEnumerable<IngredientDto> Ingredients { get; set; }
         public IEnumerable<MenuDto> SpecialMenus { get; set; }
         
-        public RestaurantDto RestaurantDto { get; set; }
+        public RestaurantDto Restaurant { get; set; }
         
-        public DishesGroupDto DishesGroupDto { get; set; }
+        public DishesGroupDto? Group { get; set; }
     }
 }
