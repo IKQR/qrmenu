@@ -5,6 +5,7 @@ using QRCodeMenu.Server.Controllers.Base;
 using QRCodeMenu.Server.Data;
 using QRCodeMenu.Server.Data.Entities;
 using QRCodeMenu.Shared.Dto;
+using System.Diagnostics.CodeAnalysis;
 
 namespace QRCodeMenu.Server.Controllers.Admin
 {
@@ -34,14 +35,14 @@ namespace QRCodeMenu.Server.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RestaurantDto>>> Get([FromQuery] string name = default)
+        public async Task<ActionResult<IEnumerable<RestaurantDto>>> Get([FromQuery][AllowNull] string? name = default)
         {
             var q = _data.Restaurants.AsQueryable();
             if (!string.IsNullOrEmpty(name))
             {
                 q = q.Where(x => x.Name.Contains(name));
             }
-            var ent = await q.ToArrayAsync();
+            var ent = await q.OrderBy(x => x.Name).ToArrayAsync();
 
             return Ok(_mapper.Map(ent));
         }
