@@ -1,0 +1,50 @@
+﻿@layout EmptyLayout
+@page "/menus/{RestaurantName}"
+@using QRCodeMenu.Shared.Dto
+
+@foreach (var dish in Dishes)
+{
+    <a href="#"
+   class="list-group-item list-group-item-action flex-column align-items-start disabled">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@dish.Name</h5>
+        </div>
+        <small class="text-muted">
+            @(string.Join(",", dish.Ingredients.Select(x=> x.Name)))
+        </small>
+    </a>
+}
+
+
+@code {
+    [Parameter]
+    public string RestaurantName { get; set; }
+
+    [Inject]
+    public HttpClient Http { get; set; }
+
+    protected RestaurantDto Restaurant { get; set; } = new();
+    protected DishDto[] Dishes { get; set; } = Array.Empty<DishDto>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadRestaurant();
+        await LoadDishes();
+
+        await base.OnParametersSetAsync();
+    }
+
+    protected async Task LoadRestaurant()
+    {
+        var result = await Http.GetFromJsonAsync<RestaurantDto[]>($"/api/admin/restaurant?name={RestaurantName}");
+
+        Restaurant = result.FirstOrDefault() ?? new();
+    }
+
+    protected async Task LoadDishes()
+    {
+        var result = await Http.GetFromJsonAsync<DishDto[]>($"/api/admin/dish/{Restaurant.Id}");
+
+        Dishes = result.OrderBy(x => x.Name).ToArray();
+    }
+}

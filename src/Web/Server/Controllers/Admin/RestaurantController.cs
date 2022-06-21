@@ -34,9 +34,14 @@ namespace QRCodeMenu.Server.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RestaurantDto>>> Get()
+        public async Task<ActionResult<IEnumerable<RestaurantDto>>> Get([FromQuery] string name = default)
         {
-            var ent = await _data.Restaurants.ToArrayAsync();
+            var q = _data.Restaurants.AsQueryable();
+            if (!string.IsNullOrEmpty(name))
+            {
+                q = q.Where(x => x.Name.Contains(name));
+            }
+            var ent = await q.ToArrayAsync();
 
             return Ok(_mapper.Map(ent));
         }
