@@ -14,6 +14,11 @@ public class DishMapper : IBaseDtoMapper<Dish, DishDto>, IBaseBackMapper<Dish, D
             GroupId = entity.GroupId,
             Id = entity.Id,
             RestaurantId = entity.RestaurantId,
+            Ingredients = entity.Ingredients.Select(x => new IngredientDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+            }),
         };
     }
 

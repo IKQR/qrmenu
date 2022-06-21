@@ -4,18 +4,29 @@
 @using static QRCodeMenu.Client.Components.Diver
 @inherits RestaurantChildBaseComponent
 
-
-
 <Diver Items=DiverItems />
+<div class="col-md-6">
+    <EditForm Model=Dish OnSubmit=ChangeDishName>
+        <div class="input-group mb-2">
+            <button class="btn btn-danger" type="button" @onclick=DeleteDish>Delete</button>
+            <InputText class="form-control"
+                       placeholder="New dish"
+                       @bind-Value=Dish.Name />
+            <button class="btn btn-primary" type="submit">Rename</button>
+        </div>
+    </EditForm>
+</div>
 
-<p>@Dish.Name</p>
-
+<IngredientAssigneSelect Dish=Dish
+                         AssignedIngredients=@(Dish.Ingredients.ToArray())
+                         NotAssignedIngredients=@(Ingredients.Where(x => Dish.Ingredients.All(y => y.Id != x.Id)).ToArray()) />
 
 @code {
 
     [Parameter]
     public int DishId { get; set; }
     protected DishDto Dish { get; set; } = new();
+    protected IngredientDto[] Ingredients = Array.Empty<IngredientDto>();
 
     protected override DiverItem[] DiverItems =>
         base.DiverItems.Concat(new DiverItem[]
@@ -28,6 +39,7 @@
     {
         await base.LoadOnInitialized();
         await LoadDish();
+        await LoadIngredients();
     }
 
     protected async Task LoadDish()
@@ -35,5 +47,33 @@
         var result = await Http.GetFromJsonAsync<DishDto>($"/api/admin/dish/{RestaurantId}/{DishId}")
             ?? new();
         Dish = result;
+    }
+
+    protected async Task LoadIngredients()
+    {
+        var result = await Http.GetFromJsonAsync<IngredientDto[]>($"/api/admin/ingredient/{RestaurantId}")
+            ?? Array.Empty<IngredientDto>();
+
+        Ingredients = result;
+    }
+
+    protected async Task ChangeDishName()
+    {
+        var result = await Http.PutAsJsonAsync<DishDto>($"/api/admin/dish/{RestaurantId}", Dish);
+    }
+
+    protected async Task DeleteDish()
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Are you shure to delete?");
+
+        if (confirm)
+        {
+            var result = await Http.DeleteAsync($"/api/admin/dish/{RestaurantId}/{DishId}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                NM.NavigateTo($"/admin/restaurant/{RestaurantId}/dish");
+            }
+        }
     }
 }
